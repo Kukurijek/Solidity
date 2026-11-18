@@ -83,6 +83,11 @@ contract ProposalContract {
         }
     }
 
+    // Owner can manually terminate the current (active) proposal
+    function terminateProposal() external onlyOwner active {
+        proposal_history[counter].is_active = false;
+    }
+
     // ****************** Query Functions ***********************
 
     // Checks if the given address has already voted on the current proposal
@@ -95,9 +100,14 @@ contract ProposalContract {
         return false;
     }
 
-    // Returns the current (latest) proposal - useful for testing in Remix
+    // Returns the current (latest) proposal
     function getCurrentProposal() external view returns (Proposal memory) {
         return proposal_history[counter];
+    }
+
+    // Returns a specific proposal by its id
+    function getProposal(uint256 number) external view returns (Proposal memory) {
+        return proposal_history[number];
     }
 
     // ****************** Helper Functions ***********************
